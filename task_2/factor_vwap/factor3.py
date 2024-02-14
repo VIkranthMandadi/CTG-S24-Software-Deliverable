@@ -3,7 +3,7 @@ import pandas as pd
 import os
 import sys
 
-def calculate_volume_adjusted_momentum(stock_data, n=1):
+def calculate_vwap(stock_data, n=5):
     # Calculate the Volume Adjusted Momentum factor backward over the last n days
     stock_data['VWAP'] = (stock_data['Close'] * stock_data['Volume']).rolling(n).sum() / stock_data['Volume'].rolling(n).sum()
     stock_data = stock_data[['VWAP']]
@@ -14,7 +14,7 @@ def process_csv_file(csv_path):
     df = pd.read_csv(csv_path, index_col="Date")
     
     # Calculate Volume Adjusted Momentum factor backward over the last 15 days
-    df = calculate_volume_adjusted_momentum(df, n=1)
+    df = calculate_vwap(df, n=5)
     
     # Extract the ticker symbol from the file name
     ticker = os.path.splitext(os.path.basename(csv_path))[0]
