@@ -2,6 +2,7 @@ import sys
 import pandas as pd
 import matplotlib.pyplot as plt
 
+
 if len(sys.argv) < 2:
     print("Please provide the path to the factor CSV file as a command-line argument.")
     sys.exit(1)

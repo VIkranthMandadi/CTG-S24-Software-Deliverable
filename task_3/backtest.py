@@ -30,8 +30,18 @@ class BacktestStrategy:
     def _ticker_return(self, ticker, date):
         # Calculate return for a single ticker
         try:
-            daily_data = self.data[ticker].loc[date]
-            return daily_data['Close'] / daily_data['Open'] - 1
+                # Get the date of the previous day
+            previous_date = pd.to_datetime(date) - pd.Timedelta(days=1)
+            previous_date = previous_date.strftime('%Y-%m-%d')
+
+            # Retrieve the closing price of the previous day
+            previous_close = self.data[ticker].loc[previous_date, 'Close']
+
+            # Retrieve the opening price of the current day
+            current_open = self.data[ticker].loc[date, 'Open']
+
+            # Calculate return
+            return current_open / previous_close - 1
         except KeyError:
             return 0  # Return zero if data is missing
 
